@@ -1,3 +1,5 @@
+#!/usr/local/bin/lumarsh
+
 langs = {}
 langs.asm = {}
 langs.c = {}
@@ -20,8 +22,8 @@ function genericScaffold(folder, language)
     end
 end
 
-function timeSolution(exe)
-    local output = sh.proc.executeEnforceZero("./solution", {}).output
+function timeSolution(exe, args)
+    local output = sh.proc.executeEnforceZero(exe, args or {}).output
     local match = sh.regex.matchFirst(output, "__TIME__ = (\\d+)")
     assert(match.matched, "Regex failed?")
     return tonumber(match.captures[2]) -- Microseconds
@@ -58,8 +60,22 @@ end
 function langs.asm.run(folder) return makeRun(folder, 'asm') end
 function langs.asm.scaffold(folder) genericScaffold(folder, 'asm') end
 
+function langs.c.run(folder) return mesonRun(folder, 'c') end
+function langs.c.scaffold(folder) genericScaffold(folder, 'c') end
+
 function langs.d.run(folder) return mesonRun(folder, 'd') end
 function langs.d.scaffold(folder) genericScaffold(folder, 'd') end
+
+function langs.d.run(folder)
+    folder = sh.path.buildPath({folder, "go"})
+
+    local cdir = sh.path.getcwd()
+    sh.fs.chdir(folder)
+    local result = timeSolution("go", {"run", "."})
+    sh.fs.chdir(cdir)
+    return result
+end
+function langs.d.scaffold(folder) genericScaffold(folder, 'go') end
 
 -- Commands
 

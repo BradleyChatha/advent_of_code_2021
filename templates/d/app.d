@@ -9,5 +9,4 @@ void main()
 
 void runSolution(string input)
 {
-    writeln(input);
 }

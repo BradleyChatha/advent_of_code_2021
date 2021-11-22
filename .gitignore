@@ -3,3 +3,4 @@ builddir
 solution
 *.o
 *.out
+test
