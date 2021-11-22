@@ -4,3 +4,4 @@ solution
 *.o
 *.out
 test
+__pycache__
