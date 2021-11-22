@@ -55,6 +55,16 @@ function makeRun(folder, language)
     return result
 end
 
+function genericRun(folder, lang, exe, args)
+    folder = sh.path.buildPath({folder, lang})
+
+    local cdir = sh.path.getcwd()
+    sh.fs.chdir(folder)
+    local result = timeSolution(exe, args)
+    sh.fs.chdir(cdir)
+    return result
+end
+
 -- Languages
 
 function langs.asm.run(folder) return makeRun(folder, 'asm') end
@@ -66,16 +76,11 @@ function langs.c.scaffold(folder) genericScaffold(folder, 'c') end
 function langs.d.run(folder) return mesonRun(folder, 'd') end
 function langs.d.scaffold(folder) genericScaffold(folder, 'd') end
 
-function langs.d.run(folder)
-    folder = sh.path.buildPath({folder, "go"})
+function langs.go.run(folder) return genericRun(folder, 'go', 'go', {'run', '.'}) end
+function langs.go.scaffold(folder) genericScaffold(folder, 'go') end
 
-    local cdir = sh.path.getcwd()
-    sh.fs.chdir(folder)
-    local result = timeSolution("go", {"run", "."})
-    sh.fs.chdir(cdir)
-    return result
-end
-function langs.d.scaffold(folder) genericScaffold(folder, 'go') end
+function langs.python.run(folder) return genericRun(folder, 'python', 'python', {'./app.py'}) end
+function langs.python.scaffold(folder) genericScaffold(folder, 'python') end
 
 -- Commands
 
