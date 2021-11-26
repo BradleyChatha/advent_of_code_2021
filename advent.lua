@@ -8,8 +8,6 @@ langs.go = {}
 langs.python = {}
 langs.csharp = {}
 langs.fsharp = {}
-langs.lua = {}
-langs.ts = {}
 
 -- Helpers
 
@@ -81,6 +79,12 @@ function langs.go.scaffold(folder) genericScaffold(folder, 'go') end
 
 function langs.python.run(folder) return genericRun(folder, 'python', 'python', {'./app.py'}) end
 function langs.python.scaffold(folder) genericScaffold(folder, 'python') end
+
+function langs.csharp.run(folder) return genericRun(folder, 'csharp', 'dotnet', {'run'}) end
+function langs.csharp.scaffold(folder) genericScaffold(folder, 'csharp') end
+
+function langs.fsharp.run(folder) return genericRun(folder, 'fsharp', 'dotnet', {'run'}) end
+function langs.fsharp.scaffold(folder) genericScaffold(folder, 'fsharp') end
 
 -- Commands
 

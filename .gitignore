@@ -5,3 +5,6 @@ solution
 *.out
 test
 __pycache__
+obj
+bin
+.ionide
