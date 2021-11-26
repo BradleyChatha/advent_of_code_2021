@@ -108,4 +108,20 @@ elseif LUMARSH_ARGS and LUMARSH_ARGS[1] == "scaffold" then
             v.run(day) -- Ensure it compiles
         end
     end
+elseif LUMARSH_ARGS and LUMARSH_ARGS[1] == "run" then
+    local day = LUMARSH_ARGS[2]
+    assert(day, "Please provide which day to scaffold")
+    local l = LUMARSH_ARGS[3]
+
+    for lang,v in pairs(langs) do
+        if not l or lang == l then
+            v.result = v.run(day)
+        end
+    end
+
+    for lang,v in pairs(langs) do
+        if v.result then
+            print(lang, v.result)
+        end
+    end
 end
