@@ -1,4 +1,7 @@
 #!/usr/local/bin/lumarsh
+---@diagnostic disable: lowercase-global
+sh = sh
+LUMARSH_ARGS = LUMARSH_ARGS
 
 langs = {}
 langs.asm = {}
@@ -16,10 +19,10 @@ function genericScaffold(folder, language)
     if not sh.fs.exists(folder) then
         sh.fs.mkdirRecurse(folder)
         sh:cp("-r", "templates/"..language, sh.path.buildPath({folder, ".."}))
-        sh:cp("templates/input.txt", folder)
     end
 end
 
+-- NOTE: The .Net languages only have Millisecond precision
 function timeSolution(exe, args)
     local output = sh.proc.executeEnforceZero(exe, args or {}).output
     local match = sh.regex.matchFirst(output, "__TIME__ = (\\d+)")
@@ -35,8 +38,6 @@ function mesonRun(folder, language)
     sh.proc.executeShell('meson', {'build'})
     sh.fs.chdir('build')
     sh:ninja()
-    sh:cp("./solution", "..")
-    sh.fs.chdir("..")
     local result = timeSolution("./solution")
     sh.fs.chdir(cdir)
     return result
@@ -101,6 +102,14 @@ if LUMARSH_ARGS and LUMARSH_ARGS[1] == "test" then
 elseif LUMARSH_ARGS and LUMARSH_ARGS[1] == "scaffold" then
     local day = LUMARSH_ARGS[2]
     assert(day, "Please provide which day to scaffold")
+    
+    if not sh.fs.exists(day) then
+        sh.fs.mkdirRecurse(day)
+    end
+
+    if not sh.fs.exists(day.."/input.txt") then
+        sh:cp("templates/input.txt", day)
+    end
 
     for lang,v in pairs(langs) do
         if v.scaffold then
