@@ -14,6 +14,8 @@ Run a day via `lumarsh ./advent.lua run <DAY>`
 
 Run a specific language for a specific day via `lumarsh ./advent.lua run <DAY> <LANGUAGE>`
 
+All times are in microseconds. The .Net languages only provide an (easy to use) resolution of milliseconds, hence why they're inflated.
+
 ## Day 1
 
 ```
