@@ -1,5 +1,6 @@
 - [Running](#running)
 - [Day 1](#day-1)
+- [Day 2](#day-2)
 
 ## Running
 
@@ -23,4 +24,16 @@ d       418
 asm     18
 c       67
 fsharp  10000
+```
+
+## Day 2
+
+```
+csharp  12000
+python  634
+go      148
+d       297
+asm     18
+c       32
+fsharp  12000
 ```
